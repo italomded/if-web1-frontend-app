@@ -6,6 +6,8 @@ import '../information/id_information.dart';
 import '../information/name_information.dart';
 import '../information/status_information.dart';
 
+const systemChildName = "Services";
+
 class SystemItem extends StatelessWidget {
   final System system;
 
@@ -26,12 +28,12 @@ class SystemItem extends StatelessWidget {
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return GenericList(
-                    appBarTitle: "Services",
+                    appBarTitle: systemChildName,
                     itemList: system.services!,
                   );
                 }));
               },
-              child: const Text("Services"))
+              child: const Text(systemChildName))
         ],
       ),
     ));

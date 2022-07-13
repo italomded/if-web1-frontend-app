@@ -34,11 +34,14 @@ class ListOptions extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: const [
-        ItemOption(optionName: optionNameSystem),
-        ItemOption(optionName: optionNameService),
-        ItemOption(optionName: optionNameTransaction),
-        ItemOption(optionName: optionNameUser),
-        ItemOption(optionName: optionNameProfile),
+        ItemOption(
+          optionName: optionNameSystem,
+          newRoute: SystemList(),
+        ),
+        ItemOption(
+          optionName: optionNameService,
+          newRoute: ProfileList(),
+        ),
       ],
     );
   }
@@ -46,8 +49,10 @@ class ListOptions extends StatelessWidget {
 
 class ItemOption extends StatelessWidget {
   final String optionName;
+  final Widget newRoute;
 
-  const ItemOption({Key? key, required this.optionName}) : super(key: key);
+  const ItemOption({Key? key, required this.optionName, required this.newRoute})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +70,7 @@ class ItemOption extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const SystemList(
-                    itemList: [],
-                  );
+                  return newRoute;
                 }));
               },
               child: const Text(buttonTitle),
