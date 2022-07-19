@@ -1,8 +1,13 @@
+import 'package:projeto/models/model_generic.dart';
+
 import 'model_profile.dart';
 
-class Transaction {
+class Transaction implements Generic {
+  @override
   int? id;
+  @override
   String? name;
+  @override
   bool? status;
   String? url;
   int? serviceId;

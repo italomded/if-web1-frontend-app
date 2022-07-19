@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/screens/lists/service_list.dart';
 import 'package:projeto/screens/lists/system_list.dart';
+import 'package:projeto/screens/lists/transaction_list.dart';
 
 import 'lists/profile_list.dart';
 
@@ -40,7 +42,11 @@ class ListOptions extends StatelessWidget {
         ),
         ItemOption(
           optionName: optionNameService,
-          newRoute: ProfileList(),
+          newRoute: ServiceList(),
+        ),
+        ItemOption(
+          optionName: optionNameTransaction,
+          newRoute: TransactionList(),
         ),
       ],
     );

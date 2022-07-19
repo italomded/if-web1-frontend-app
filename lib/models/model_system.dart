@@ -1,8 +1,12 @@
+import 'model_generic.dart';
 import 'model_service.dart';
 
-class System {
+class System implements Generic {
+  @override
   int? id;
+  @override
   String? name;
+  @override
   bool? status;
   List<Service>? services;
 

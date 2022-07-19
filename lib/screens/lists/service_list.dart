@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:projeto/api/endpoint/system_endpoint.dart';
 import 'package:projeto/api/fetch_all_api.dart';
+import 'package:projeto/models/model_generic.dart';
+import 'package:projeto/models/model_service.dart';
 
-import '../../components/item/system_item.dart';
-import '../../models/model_generic.dart';
-import '../../models/model_system.dart';
+import '../../api/endpoint/service_endpoint.dart';
+import '../../components/item/service_item.dart';
 
-const String appBarTitle = "System list";
+const String appBarTitle = "Service list";
 
-class SystemList extends StatefulWidget {
-  const SystemList({Key? key}) : super(key: key);
+class ServiceList extends StatefulWidget {
+  const ServiceList({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return SystemListState();
+    return ServiceListState();
   }
 }
 
-class SystemListState extends State<SystemList> {
-  late Future<List<Generic>> futureSystemList;
+class ServiceListState extends State<ServiceList> {
+  late Future<List<Generic>> futureServiceList;
 
   @override
   void initState() {
     super.initState();
-    futureSystemList = FetchAllApi(endpoint: SystemEndpoint()).fetch();
+    futureServiceList = FetchAllApi(endpoint: ServiceEndpoint()).fetch();
   }
 
   @override
@@ -33,18 +33,18 @@ class SystemListState extends State<SystemList> {
         title: const Text(appBarTitle),
       ),
       body: FutureBuilder<List<Generic>>(
-        future: futureSystemList,
+        future: futureServiceList,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List<System> systemList = snapshot.data! as List<System>;
+            List<Service> serviceList = snapshot.data! as List<Service>;
             return ListView.builder(
               itemBuilder: (context, index) {
-                final System system = systemList[index];
-                return SystemItem(
-                  system: system,
+                final Service service = serviceList[index];
+                return ServiceItem(
+                  service: service,
                 );
               },
-              itemCount: systemList.length,
+              itemCount: serviceList.length,
             );
           } else if (snapshot.hasError) {
             return Text("${snapshot.error}");
