@@ -6,7 +6,7 @@ import 'package:projeto/api/token.dart';
 const pageURI = 'http://192.168.0.108:8080/authentication';
 
 class LoginApi {
-  Future<Token> createAlbum(String title, String password) async {
+  Future<Token> makeLogin(String title, String password) async {
     final response = await http.post(
       Uri.parse(pageURI),
       headers: <String, String>{
@@ -17,7 +17,7 @@ class LoginApi {
     if (response.statusCode == 200) {
       return Token.fromJson(jsonDecode(response.body));
     } else {
-      return Token(token: "403", type: "Bearer");
+      return Token(token: "NaN", type: "NaN");
     }
   }
 }

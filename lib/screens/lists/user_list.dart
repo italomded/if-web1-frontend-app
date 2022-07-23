@@ -1,34 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/api/fetch_all_api.dart';
 import 'package:projeto/models/model_generic.dart';
+import 'package:projeto/models/model_user.dart';
 
-import '../../api/endpoint/profile_endpoint.dart';
+import '../../api/endpoint/user_endpoint.dart';
 import '../../api/token.dart';
-import '../../components/item/profile_item.dart';
+import '../../components/item/user_item.dart';
 import '../../measures/pattern_measures.dart';
-import '../../models/model_profile.dart';
 
-const String appBarTitle = "Profiles";
+const String appBarTitle = "Users";
 
-class ProfileList extends StatefulWidget {
+class UserList extends StatefulWidget {
   final Token token;
 
-  const ProfileList({Key? key, required this.token}) : super(key: key);
+  const UserList({Key? key, required this.token}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return ProfileListState();
+    return UserListState();
   }
 }
 
-class ProfileListState extends State<ProfileList> {
-  late Future<List<Generic>> futureProfileList;
+class UserListState extends State<UserList> {
+  late Future<List<Generic>> futureUserList;
 
   @override
   void initState() {
     super.initState();
-    futureProfileList =
-        FetchAllApi(endpoint: ProfileEndpoint()).fetch(widget.token);
+    futureUserList = FetchAllApi(endpoint: UserEndpoint()).fetch(widget.token);
   }
 
   @override
@@ -38,19 +37,19 @@ class ProfileListState extends State<ProfileList> {
         title: const Text(appBarTitle),
       ),
       body: FutureBuilder<List<Generic>>(
-        future: futureProfileList,
+        future: futureUserList,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List<Profile> profileList = snapshot.data! as List<Profile>;
+            List<User> userList = snapshot.data! as List<User>;
             return ListView.builder(
               padding: PatternMeasures.listCardPadding,
               itemBuilder: (context, index) {
-                final Profile profile = profileList[index];
-                return ProfileItem(
-                  profile: profile,
+                final User user = userList[index];
+                return UserItem(
+                  user: user,
                 );
               },
-              itemCount: profileList.length,
+              itemCount: userList.length,
             );
           } else if (snapshot.hasError) {
             return Text("${snapshot.error}");

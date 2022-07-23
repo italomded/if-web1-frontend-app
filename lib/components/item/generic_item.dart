@@ -13,12 +13,15 @@ class GenericItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(
-        children: <Widget>[
-          IdInformation(id: generic.id!),
-          StatusInformation(status: generic.status!),
-          NameInformation(name: generic.name!)
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: <Widget>[
+            IdInformation(id: generic.id!),
+            StatusInformation(status: generic.status!),
+            NameInformation(name: generic.name!)
+          ],
+        ),
       ),
     );
   }

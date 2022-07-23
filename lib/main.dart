@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projeto/screens/home.dart';
+import 'package:projeto/screens/login.dart';
 
 void main() {
   runApp(const Project());
@@ -11,7 +11,7 @@ class Project extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Home(),
+      home: Login(),
     );
   }
 }

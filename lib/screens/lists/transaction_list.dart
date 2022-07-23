@@ -3,13 +3,17 @@ import 'package:projeto/api/fetch_all_api.dart';
 import 'package:projeto/models/model_generic.dart';
 
 import '../../api/endpoint/transaction_endpoint.dart';
+import '../../api/token.dart';
 import '../../components/item/transaction_item.dart';
+import '../../measures/pattern_measures.dart';
 import '../../models/model_transaction.dart';
 
-const String appBarTitle = "Transaction list";
+const String appBarTitle = "Transactions";
 
 class TransactionList extends StatefulWidget {
-  const TransactionList({Key? key}) : super(key: key);
+  final Token token;
+
+  const TransactionList({Key? key, required this.token}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -24,7 +28,7 @@ class TransactionListState extends State<TransactionList> {
   void initState() {
     super.initState();
     futureTransactionList =
-        FetchAllApi(endpoint: TransactionEndpoint()).fetch();
+        FetchAllApi(endpoint: TransactionEndpoint()).fetch(widget.token);
   }
 
   @override
@@ -40,6 +44,7 @@ class TransactionListState extends State<TransactionList> {
             List<Transaction> transactionList =
                 snapshot.data! as List<Transaction>;
             return ListView.builder(
+              padding: PatternMeasures.listCardPadding,
               itemBuilder: (context, index) {
                 final Transaction transaction = transactionList[index];
                 return TransactionItem(

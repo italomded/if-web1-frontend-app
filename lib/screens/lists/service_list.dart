@@ -4,12 +4,16 @@ import 'package:projeto/models/model_generic.dart';
 import 'package:projeto/models/model_service.dart';
 
 import '../../api/endpoint/service_endpoint.dart';
+import '../../api/token.dart';
 import '../../components/item/service_item.dart';
+import '../../measures/pattern_measures.dart';
 
-const String appBarTitle = "Service list";
+const String appBarTitle = "Services";
 
 class ServiceList extends StatefulWidget {
-  const ServiceList({Key? key}) : super(key: key);
+  final Token token;
+
+  const ServiceList({Key? key, required this.token}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -23,7 +27,8 @@ class ServiceListState extends State<ServiceList> {
   @override
   void initState() {
     super.initState();
-    futureServiceList = FetchAllApi(endpoint: ServiceEndpoint()).fetch();
+    futureServiceList =
+        FetchAllApi(endpoint: ServiceEndpoint()).fetch(widget.token);
   }
 
   @override
@@ -38,6 +43,7 @@ class ServiceListState extends State<ServiceList> {
           if (snapshot.hasData) {
             List<Service> serviceList = snapshot.data! as List<Service>;
             return ListView.builder(
+              padding: PatternMeasures.listCardPadding,
               itemBuilder: (context, index) {
                 final Service service = serviceList[index];
                 return ServiceItem(

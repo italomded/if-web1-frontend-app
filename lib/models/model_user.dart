@@ -1,9 +1,14 @@
+import 'package:projeto/models/model_generic.dart';
+
 import 'model_profile.dart';
 
-class User {
+class User extends Generic {
+  @override
   int? id;
+  @override
   String? name;
   String? login;
+  @override
   bool? status;
   String? register;
   List<Profile>? profiles;

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/api/token.dart';
+import 'package:projeto/screens/lists/profile_list.dart';
 import 'package:projeto/screens/lists/service_list.dart';
 import 'package:projeto/screens/lists/system_list.dart';
 import 'package:projeto/screens/lists/transaction_list.dart';
+import 'package:projeto/screens/lists/user_list.dart';
 
-import 'lists/profile_list.dart';
+import '../measures/pattern_measures.dart';
 
 const String appBarTitle = "Home";
 
@@ -34,22 +37,34 @@ class ListOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: const [
-        ItemOption(
-          optionName: optionNameSystem,
-          newRoute: SystemList(),
+    Token token = ModalRoute.of(context)!.settings.arguments as Token;
+    return WillPopScope(
+        child: ListView(
+          padding: PatternMeasures.listCardPadding,
+          children: [
+            ItemOption(
+              optionName: optionNameSystem,
+              newRoute: SystemList(token: token),
+            ),
+            ItemOption(
+              optionName: optionNameService,
+              newRoute: ServiceList(token: token),
+            ),
+            ItemOption(
+              optionName: optionNameTransaction,
+              newRoute: TransactionList(token: token),
+            ),
+            ItemOption(
+              optionName: optionNameProfile,
+              newRoute: ProfileList(token: token),
+            ),
+            ItemOption(
+              optionName: optionNameUser,
+              newRoute: UserList(token: token),
+            ),
+          ],
         ),
-        ItemOption(
-          optionName: optionNameService,
-          newRoute: ServiceList(),
-        ),
-        ItemOption(
-          optionName: optionNameTransaction,
-          newRoute: TransactionList(),
-        ),
-      ],
-    );
+        onWillPop: () async => false);
   }
 }
 
@@ -75,9 +90,14 @@ class ItemOption extends StatelessWidget {
             flex: 1,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return newRoute;
-                }));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return newRoute;
+                    },
+                  ),
+                );
               },
               child: const Text(buttonTitle),
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../components/item/generic_item.dart';
+import '../../measures/pattern_measures.dart';
 import '../../models/model_generic.dart';
 
 class GenericList extends StatelessWidget {
@@ -14,15 +15,17 @@ class GenericList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(appBarTitle),
-        ),
-        body: ListView.builder(
-          itemBuilder: (context, index) {
-            final Generic generic = itemList[index];
-            return GenericItem(generic: generic);
-          },
-          itemCount: itemList.length,
-        ));
+      appBar: AppBar(
+        title: Text(appBarTitle),
+      ),
+      body: ListView.builder(
+        padding: PatternMeasures.listCardPadding,
+        itemBuilder: (context, index) {
+          final Generic generic = itemList[index];
+          return GenericItem(generic: generic);
+        },
+        itemCount: itemList.length,
+      ),
+    );
   }
 }

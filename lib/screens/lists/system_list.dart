@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:projeto/api/endpoint/system_endpoint.dart';
 import 'package:projeto/api/fetch_all_api.dart';
 
+import '../../api/token.dart';
 import '../../components/item/system_item.dart';
+import '../../measures/pattern_measures.dart';
 import '../../models/model_generic.dart';
 import '../../models/model_system.dart';
 
-const String appBarTitle = "System list";
+const String appBarTitle = "Systems";
 
 class SystemList extends StatefulWidget {
-  const SystemList({Key? key}) : super(key: key);
+  final Token token;
+
+  const SystemList({Key? key, required this.token}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -23,7 +27,8 @@ class SystemListState extends State<SystemList> {
   @override
   void initState() {
     super.initState();
-    futureSystemList = FetchAllApi(endpoint: SystemEndpoint()).fetch();
+    futureSystemList =
+        FetchAllApi(endpoint: SystemEndpoint()).fetch(widget.token);
   }
 
   @override
@@ -38,6 +43,7 @@ class SystemListState extends State<SystemList> {
           if (snapshot.hasData) {
             List<System> systemList = snapshot.data! as List<System>;
             return ListView.builder(
+              padding: PatternMeasures.listCardPadding,
               itemBuilder: (context, index) {
                 final System system = systemList[index];
                 return SystemItem(

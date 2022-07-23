@@ -16,8 +16,14 @@ class GenericInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Flexible(child: Icon(icon)),
-        Flexible(child: Text("$titleText: $text")),
+        Flexible(
+          flex: 1,
+          child: Icon(icon),
+        ),
+        Flexible(
+          flex: 2,
+          child: Text("$titleText: $text"),
+        ),
       ],
     );
   }
