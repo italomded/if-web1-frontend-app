@@ -3,7 +3,7 @@ import 'package:projeto/api/login_api.dart';
 import 'package:projeto/screens/home.dart';
 
 import '../api/token.dart';
-import '../components/input_field.dart';
+import '../components/form/input_field.dart';
 
 const String appBarTitle = "Login";
 
@@ -30,54 +30,58 @@ class _LoginState extends State<Login> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(appBarTitle),
+        automaticallyImplyLeading: false,
       ),
-      body: Column(
-        children: [
-          InputField(
-            labelController: _loginController,
-            labelText: loginLabelText,
-            secret: false,
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-          ),
-          InputField(
-            labelController: _passwordController,
-            labelText: passwordLabelText,
-            secret: true,
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              String login = _loginController.text;
-              String password = _passwordController.text;
-              Future<Token> futureToken = _loginApi.makeLogin(login, password);
-              futureToken.then(
-                (value) => {
-                  if (value.token == "NaN")
-                    {
-                      setState(() {
-                        debugPrint("NÃO CHEGOU!");
-                        debugPrint(password);
-                      }),
-                    }
-                  else
-                    {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return const Home();
-                          },
-                          settings: RouteSettings(arguments: value),
-                        ),
-                      )
-                    }
+      body: WillPopScope(
+          child: Column(
+            children: [
+              InputField(
+                labelController: _loginController,
+                labelText: loginLabelText,
+                secret: false,
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+              ),
+              InputField(
+                labelController: _passwordController,
+                labelText: passwordLabelText,
+                secret: true,
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  String login = _loginController.text;
+                  String password = _passwordController.text;
+                  Future<Token> futureToken =
+                      _loginApi.makeLogin(login, password);
+                  futureToken.then(
+                    (value) => {
+                      if (value.token == "NaN")
+                        {
+                          setState(() {
+                            debugPrint("NÃO CHEGOU!");
+                            debugPrint(password);
+                          }),
+                        }
+                      else
+                        {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const Home();
+                              },
+                              settings: RouteSettings(arguments: value),
+                            ),
+                          )
+                        }
+                    },
+                  );
                 },
-              );
-            },
-            child: const Text(loginButtonTitle),
-          )
-        ],
-      ),
+                child: const Text(loginButtonTitle),
+              )
+            ],
+          ),
+          onWillPop: () async => false),
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:projeto/api/endpoint/endpoint.dart';
 
 import '../../models/model_service.dart';
 
-class ServiceEndpoint implements Endpoint {
+class ServiceEndpoint extends Endpoint {
   final String endpointName = "service";
 
   @override
@@ -17,5 +17,10 @@ class ServiceEndpoint implements Endpoint {
   @override
   String getEndpointName() {
     return endpointName;
+  }
+
+  @override
+  Service toModel(dynamic) {
+    return Service.fromJson(dynamic);
   }
 }

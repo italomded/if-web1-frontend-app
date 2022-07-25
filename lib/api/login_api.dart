@@ -1,14 +1,13 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:projeto/api/api.dart';
 import 'package:projeto/api/token.dart';
-
-const pageURI = 'http://192.168.0.108:8080/authentication';
 
 class LoginApi {
   Future<Token> makeLogin(String title, String password) async {
     final response = await http.post(
-      Uri.parse(pageURI),
+      Uri.parse("${Api.url}authentication"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

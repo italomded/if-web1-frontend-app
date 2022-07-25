@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/screens/login.dart';
 
+const String appName = "Projeto";
+
 void main() {
   runApp(const Project());
 }
@@ -10,8 +12,14 @@ class Project extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Login(),
+    return MaterialApp(
+      title: appName,
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.lightBlue[800],
+        fontFamily: 'Georgia',
+      ),
+      home: const Login(),
     );
   }
 }

@@ -30,7 +30,7 @@ class Transaction implements Generic {
     if (json['profiles'] != null) {
       profiles = <Profile>[];
       json['profiles'].forEach((v) {
-        profiles!.add(new Profile.fromJson(v));
+        profiles!.add(Profile.fromJson(v));
       });
     }
   }

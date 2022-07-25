@@ -5,6 +5,7 @@ import 'package:projeto/screens/lists/service_list.dart';
 import 'package:projeto/screens/lists/system_list.dart';
 import 'package:projeto/screens/lists/transaction_list.dart';
 import 'package:projeto/screens/lists/user_list.dart';
+import 'package:projeto/screens/login.dart';
 
 import '../measures/pattern_measures.dart';
 
@@ -26,6 +27,22 @@ class Home extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(appBarTitle),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const Login();
+                  },
+                ),
+              );
+            },
+            icon: const Icon(Icons.logout),
+          )
+        ],
+        automaticallyImplyLeading: false,
       ),
       body: const ListOptions(),
     );

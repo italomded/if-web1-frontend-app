@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:projeto/api/fetch_all_api.dart';
+import 'package:projeto/api/id_action/delete_action_api.dart';
+import 'package:projeto/api/id_action/update_action_api.dart';
+import 'package:projeto/components/icon_button/icon_button_navigator_action.dart';
 import 'package:projeto/models/model_generic.dart';
 import 'package:projeto/models/model_user.dart';
 
+import '../../api/endpoint/endpoint.dart';
 import '../../api/endpoint/user_endpoint.dart';
 import '../../api/token.dart';
 import '../../components/item/user_item.dart';
 import '../../measures/pattern_measures.dart';
+import '../../components/error_screen.dart';
 
 const String appBarTitle = "Users";
 
@@ -17,17 +21,18 @@ class UserList extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return UserListState();
+    return _UserListState();
   }
 }
 
-class UserListState extends State<UserList> {
+class _UserListState extends State<UserList> {
   late Future<List<Generic>> futureUserList;
+  final Endpoint endpoint = UserEndpoint();
 
   @override
   void initState() {
     super.initState();
-    futureUserList = FetchAllApi(endpoint: UserEndpoint()).fetch(widget.token);
+    futureUserList = endpoint.fetch(widget.token);
   }
 
   @override
@@ -35,6 +40,18 @@ class UserListState extends State<UserList> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(appBarTitle),
+        actions: [
+          IconButtonNavigatorAction(
+            token: widget.token,
+            idActionApi: UpdateActionApi(endpoint: endpoint),
+            iconData: Icons.extension_off,
+          ),
+          IconButtonNavigatorAction(
+            token: widget.token,
+            idActionApi: DeleteActionApi(endpoint: endpoint),
+            iconData: Icons.delete,
+          ),
+        ],
       ),
       body: FutureBuilder<List<Generic>>(
         future: futureUserList,
@@ -52,7 +69,7 @@ class UserListState extends State<UserList> {
               itemCount: userList.length,
             );
           } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
+            return const ErrorScreen();
           } else {
             return const Center(
               child: CircularProgressIndicator(),

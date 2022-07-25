@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:projeto/api/fetch_all_api.dart';
+import 'package:projeto/api/endpoint/endpoint.dart';
+import 'package:projeto/api/id_action/delete_action_api.dart';
+import 'package:projeto/api/id_action/update_action_api.dart';
+import 'package:projeto/components/icon_button/icon_button_navigator.dart';
+import 'package:projeto/components/icon_button/icon_button_navigator_action.dart';
 import 'package:projeto/models/model_generic.dart';
+import 'package:projeto/screens/create/create_profile.dart';
+import 'package:projeto/screens/edit/profile_edit.dart';
+import 'package:projeto/components/error_screen.dart';
 
 import '../../api/endpoint/profile_endpoint.dart';
 import '../../api/token.dart';
@@ -23,12 +30,12 @@ class ProfileList extends StatefulWidget {
 
 class ProfileListState extends State<ProfileList> {
   late Future<List<Generic>> futureProfileList;
+  final Endpoint endpoint = ProfileEndpoint();
 
   @override
   void initState() {
     super.initState();
-    futureProfileList =
-        FetchAllApi(endpoint: ProfileEndpoint()).fetch(widget.token);
+    futureProfileList = endpoint.fetch(widget.token);
   }
 
   @override
@@ -36,6 +43,34 @@ class ProfileListState extends State<ProfileList> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(appBarTitle),
+        actions: [
+          IconButtonNavigator(
+              route: const CreateProfile(), token: widget.token),
+          IconButtonNavigatorAction(
+            token: widget.token,
+            idActionApi: DeleteActionApi(endpoint: endpoint),
+            iconData: Icons.delete,
+          ),
+          IconButtonNavigatorAction(
+            token: widget.token,
+            idActionApi: UpdateActionApi(endpoint: endpoint),
+            iconData: Icons.extension_off,
+          ),
+          IconButton(
+            icon: const Icon(Icons.extension),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const ProfileEdit();
+                  },
+                  settings: RouteSettings(arguments: widget.token),
+                ),
+              );
+            },
+          )
+        ],
       ),
       body: FutureBuilder<List<Generic>>(
         future: futureProfileList,
@@ -53,7 +88,7 @@ class ProfileListState extends State<ProfileList> {
               itemCount: profileList.length,
             );
           } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
+            return const ErrorScreen();
           } else {
             return const Center(
               child: CircularProgressIndicator(),

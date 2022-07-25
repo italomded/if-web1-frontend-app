@@ -2,7 +2,7 @@ import 'package:projeto/api/endpoint/endpoint.dart';
 
 import '../../models/model_transaction.dart';
 
-class TransactionEndpoint implements Endpoint {
+class TransactionEndpoint extends Endpoint {
   final String endpointName = "transaction";
 
   @override
@@ -17,5 +17,10 @@ class TransactionEndpoint implements Endpoint {
   @override
   String getEndpointName() {
     return endpointName;
+  }
+
+  @override
+  Transaction toModel(dynamic) {
+    return Transaction.fromJson(dynamic);
   }
 }
