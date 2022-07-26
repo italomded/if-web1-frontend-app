@@ -16,13 +16,27 @@ class GenericItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            IdInformation(id: generic.id!),
-            StatusInformation(status: generic.status!),
-            NameInformation(name: generic.name!)
+            basic(),
+            complex(),
           ],
         ),
       ),
     );
+  }
+
+  Column basic() {
+    return Column(
+      children: <Widget>[
+        IdInformation(id: generic.id!),
+        StatusInformation(status: generic.status!),
+        NameInformation(name: generic.name!)
+      ],
+    );
+  }
+
+  Column complex() {
+    return Column();
   }
 }

@@ -3,5 +3,9 @@ class Generic {
   String? name;
   bool? status;
 
-  Generic({this.id, this.name, this.status});
+  Generic({
+    this.id,
+    this.name,
+    this.status,
+  });
 }

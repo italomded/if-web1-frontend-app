@@ -34,17 +34,4 @@ class Service implements Generic {
       });
     }
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['url'] = url;
-    data['status'] = status;
-    data['system_id'] = systemId;
-    if (transactions != null) {
-      data['transactions'] = transactions!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
 }

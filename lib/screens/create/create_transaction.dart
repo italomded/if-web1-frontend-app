@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/api/endpoint/endpoint.dart';
 import 'package:projeto/api/endpoint/transaction_endpoint.dart';
-import 'package:projeto/components/notification_alert.dart';
+import 'package:projeto/components/screen/notification_alert.dart';
 import '../../api/token.dart';
 import '../../components/form/input_field.dart';
 import '../../measures/pattern_measures.dart';

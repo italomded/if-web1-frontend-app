@@ -1,62 +1,130 @@
-/*
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:projeto/api/id_action/delete_action_api.dart';
+import 'package:projeto/api/id_action/update_action_api.dart';
+import 'package:projeto/components/screen/error_screen.dart';
+import 'package:projeto/components/item/generic_item.dart';
+
 import 'package:projeto/models/model_generic.dart';
+import 'package:projeto/screens/edit/id_action.dart';
+import 'package:projeto/screens/edit/search.dart';
 
 import '../../api/endpoint/endpoint.dart';
 import '../../api/token.dart';
 import '../../measures/pattern_measures.dart';
-import '../../screens/create/create_profile.dart';
-import '../icon_button/icon_button_navigator.dart';
-import '../icon_button/icon_button_navigator_status.dart';
-import '../item/profile_item.dart';
+
+import 'list_tile_navigator.dart';
+
+const String menuCreateResourceText = "Create resource";
+const String menuDeleteResourceText = "Delete resource";
+const String menuUpdateResourceText = "Update resource";
+const String menuSearchResourceText = "Search for resource";
 
 class ScreenListBase extends StatelessWidget {
-  final Future<List<Generic>> futureResourceList;
+  final String appBarTitle;
   final Token token;
   final Endpoint endpoint;
-  final Widget turnRoute;
+  final Future<List<Generic>> futureGenericList;
+  final GenericItem Function(Generic generic) convertToItemFunction;
+  final Widget createResourceRoute;
+  final List<ListTileNavigator>? extraListTileNavigator;
 
+  final Function refreshScreen;
 
   const ScreenListBase({
     Key? key,
-    required this.futureResourceList,
-    required this.token,
     required this.endpoint,
-    required this.turnRoute,
+    required this.futureGenericList,
+    required this.convertToItemFunction,
+    required this.token,
+    required this.appBarTitle,
+    required this.createResourceRoute,
+    required this.refreshScreen,
+    this.extraListTileNavigator,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(appBarTitle),
+        title: Text(appBarTitle),
         actions: [
-          IconButtonNavigator(route: const CreateProfile(), token: token),
-          IconButtonNavigatorStatus(
-            turnRoute: turnRoute,
-            token: token,
-            endpoint: endpoint,
+          IconButton(
+            onPressed: () {
+              refreshScreen();
+            },
+            icon: const Icon(Icons.refresh),
+          ),
+          IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () {
+              showModalBottomSheet<void>(
+                context: context,
+                builder: (context) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ListTileNavigator(
+                        refreshScreen: refreshScreen,
+                        title: menuCreateResourceText,
+                        icon: Icons.library_add,
+                        route: createResourceRoute,
+                        token: token,
+                      ),
+                      ListTileNavigator(
+                        refreshScreen: refreshScreen,
+                        title: menuDeleteResourceText,
+                        icon: Icons.delete,
+                        route: IdAction(
+                          actionApi: DeleteActionApi(endpoint: endpoint),
+                          appBarTitle: menuDeleteResourceText,
+                        ),
+                        token: token,
+                      ),
+                      ListTileNavigator(
+                        refreshScreen: refreshScreen,
+                        title: menuUpdateResourceText,
+                        icon: Icons.extension_off,
+                        route: IdAction(
+                          actionApi: UpdateActionApi(endpoint: endpoint),
+                          appBarTitle: menuUpdateResourceText,
+                        ),
+                        token: token,
+                      ),
+                      ListTileNavigator(
+                        refreshScreen: refreshScreen,
+                        title: menuSearchResourceText,
+                        route: Search(endpoint: endpoint),
+                        token: token,
+                        icon: Icons.search,
+                      ),
+                      Column(
+                        children: (extraListTileNavigator == null)
+                            ? []
+                            : extraListTileNavigator!,
+                      )
+                    ],
+                  );
+                },
+              );
+            },
           ),
         ],
       ),
       body: FutureBuilder<List<Generic>>(
-        future: futureResourceList,
+        future: futureGenericList,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List<Generic> profileList = snapshot.data! as List<Generic>;
+            List<Generic> genericList = snapshot.data!;
             return ListView.builder(
               padding: PatternMeasures.listCardPadding,
               itemBuilder: (context, index) {
-                final Generic profile = profileList[index];
-                return ProfileItem(
-                  profile: profile,
-                );
+                final Generic generic = genericList[index];
+                return convertToItemFunction(generic);
               },
-              itemCount: profileList.length,
+              itemCount: genericList.length,
             );
           } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
+            return const ErrorScreen();
           } else {
             return const Center(
               child: CircularProgressIndicator(),
@@ -67,4 +135,3 @@ class ScreenListBase extends StatelessWidget {
     );
   }
 }
-*/

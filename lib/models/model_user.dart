@@ -2,7 +2,7 @@ import 'package:projeto/models/model_generic.dart';
 
 import 'model_profile.dart';
 
-class User extends Generic {
+class User implements Generic {
   @override
   int? id;
   @override

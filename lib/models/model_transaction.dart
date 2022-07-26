@@ -34,17 +34,4 @@ class Transaction implements Generic {
       });
     }
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['status'] = status;
-    data['url'] = url;
-    data['service_id'] = serviceId;
-    if (profiles != null) {
-      data['profiles'] = profiles!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
 }

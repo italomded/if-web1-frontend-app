@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projeto/api/endpoint/profile_endpoint.dart';
 import 'package:projeto/api/token.dart';
 import 'package:projeto/components/form/input_field.dart';
-import 'package:projeto/components/notification_alert.dart';
+import 'package:projeto/components/screen/notification_alert.dart';
 import 'package:projeto/measures/pattern_measures.dart';
 
 const String appBarTitle = "Profile edit";

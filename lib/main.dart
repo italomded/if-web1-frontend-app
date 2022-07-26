@@ -12,14 +12,14 @@ class Project extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: appName,
-      theme: ThemeData(
+      /*theme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.lightBlue[800],
         fontFamily: 'Georgia',
-      ),
-      home: const Login(),
+      ),*/
+      home: Login(),
     );
   }
 }

@@ -23,15 +23,4 @@ class System implements Generic {
       });
     }
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['status'] = status;
-    if (services != null) {
-      data['services'] = services!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
 }

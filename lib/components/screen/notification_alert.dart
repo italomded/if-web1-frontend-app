@@ -38,7 +38,7 @@ class NotificationAlert {
         const Text("1. Você errou alguma informação;"),
         const Text(
             "2. Suas credenciais expiraram; Neste caso, faça logout e login novamente;"),
-        const Text("3. Suas credenciais expiraram;"),
+        const Text("3. Você não possui credencias de acesso necessárias;"),
       ],
     );
   }

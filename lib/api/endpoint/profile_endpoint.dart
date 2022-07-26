@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:http/http.dart';
 import 'package:projeto/api/api.dart';
 import 'package:projeto/api/endpoint/endpoint.dart';
 import 'package:projeto/api/token.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:projeto/models/model_generic.dart';
 
 import '../../models/model_profile.dart';
 

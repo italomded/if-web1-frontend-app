@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/api/endpoint/endpoint.dart';
 import 'package:projeto/api/endpoint/profile_endpoint.dart';
-import 'package:projeto/components/notification_alert.dart';
+import 'package:projeto/components/screen/notification_alert.dart';
 import '../../api/token.dart';
 import '../../components/form/input_field.dart';
 import '../../measures/pattern_measures.dart';
@@ -28,6 +28,7 @@ class _CreateProfileState extends State<CreateProfile> {
   @override
   Widget build(BuildContext context) {
     token = ModalRoute.of(context)!.settings.arguments as Token;
+    _notification = NotificationAlert(context: context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(appBarTitle),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/api/endpoint/endpoint.dart';
-import 'package:projeto/components/error_screen.dart';
+import 'package:projeto/components/item/empty_card_item.dart';
 import 'package:projeto/components/item/generic_item.dart';
 import 'package:projeto/models/model_generic.dart';
 import '../../api/token.dart';
@@ -24,7 +24,7 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> {
   final TextEditingController _idNameController = TextEditingController();
-  late Future<Generic> _futureGeneric;
+  Future<Generic>? _futureGeneric;
   late Token _token;
 
   @override
@@ -41,6 +41,7 @@ class _SearchState extends State<Search> {
             labelText: idNameLabelText,
             secret: false,
             padding: PatternMeasures.lastInputFieldPaddingPattern,
+            icon: Icons.search,
           ),
           ElevatedButton(
             onPressed: () {
@@ -59,20 +60,16 @@ class _SearchState extends State<Search> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 Generic generic = snapshot.data!;
-                return ListView(
+                return Padding(
                   padding: PatternMeasures.listCardPadding,
-                  children: [
-                    GenericItem(
-                      generic: generic,
-                    ),
-                  ],
+                  child: GenericItem(
+                    generic: generic,
+                  ),
                 );
               } else if (snapshot.hasError) {
-                return const ErrorScreen();
+                return const EmptyCardItem(icon: Icons.clear);
               } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                return const EmptyCardItem(icon: Icons.extension);
               }
             },
           ),

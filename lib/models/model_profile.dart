@@ -31,18 +31,4 @@ class Profile implements Generic {
       });
     }
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['status'] = status;
-    if (users != null) {
-      data['users'] = users!.map((v) => v.toJson()).toList();
-    }
-    if (transactions != null) {
-      data['transactions'] = transactions!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
 }
