@@ -19,11 +19,11 @@ class ServiceList extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return ServiceListState();
+    return _ServiceListState();
   }
 }
 
-class ServiceListState extends State<ServiceList> {
+class _ServiceListState extends State<ServiceList> {
   late Future<List<Generic>> futureGenericList;
   final Endpoint endpoint = ServiceEndpoint();
 

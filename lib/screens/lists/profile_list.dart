@@ -22,11 +22,11 @@ class ProfileList extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return ProfileListState();
+    return _ProfileListState();
   }
 }
 
-class ProfileListState extends State<ProfileList> {
+class _ProfileListState extends State<ProfileList> {
   late Future<List<Generic>> futureGenericList;
   final Endpoint endpoint = ProfileEndpoint();
 
