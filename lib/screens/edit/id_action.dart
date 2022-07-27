@@ -43,23 +43,16 @@ class _IdActionState extends State<IdAction> {
             labelController: _statusNameController,
             labelText: statusNameLabelText,
             secret: false,
-            padding: PatternMeasures.lastInputFieldPaddingPattern,
+            padding: PatternMeasures.uniqueInputFieldPaddingPattern,
           ),
           ElevatedButton(
             onPressed: () {
               String resourceId = _statusNameController.text;
-              Future<bool> futureResponse =
+              Future<List<String>> futureResponse =
                   widget.actionApi.go(_token, resourceId);
               futureResponse.then(
                 (value) => {
-                  if (value == true)
-                    {
-                      _notification.sucess(),
-                    }
-                  else
-                    {
-                      _notification.error(),
-                    }
+                  _notification.process(value),
                 },
               );
             },

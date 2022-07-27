@@ -6,6 +6,7 @@ import 'package:projeto/api/endpoint/endpoint.dart';
 import 'package:projeto/api/token.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:projeto/models/model_creation_error.dart';
 
 import '../../models/model_profile.dart';
 
@@ -26,7 +27,7 @@ class ProfileEndpoint extends Endpoint {
     return endpointName;
   }
 
-  Future<bool> removeUser(Token token, Map<String, String> data) async {
+  Future<List<String>> removeUser(Token token, Map<String, String> data) async {
     final response = await http.delete(
       Uri.parse("${Api.url}${getEndpointName()}/user"),
       headers: {
@@ -35,10 +36,10 @@ class ProfileEndpoint extends Endpoint {
       },
       body: jsonEncode(data),
     );
-    return super.giveResponse(response);
+    return makeResponse(response);
   }
 
-  Future<bool> addUser(Token token, Map<String, String> data) async {
+  Future<List<String>> addUser(Token token, Map<String, String> data) async {
     final response = await http.put(
       Uri.parse("${Api.url}${getEndpointName()}/user"),
       headers: {
@@ -47,10 +48,11 @@ class ProfileEndpoint extends Endpoint {
       },
       body: jsonEncode(data),
     );
-    return super.giveResponse(response);
+    return makeResponse(response);
   }
 
-  Future<bool> removeTransaction(Token token, Map<String, String> data) async {
+  Future<List<String>> removeTransaction(
+      Token token, Map<String, String> data) async {
     final response = await http.delete(
       Uri.parse("${Api.url}${getEndpointName()}/transaction"),
       headers: {
@@ -59,10 +61,11 @@ class ProfileEndpoint extends Endpoint {
       },
       body: jsonEncode(data),
     );
-    return super.giveResponse(response);
+    return makeResponse(response);
   }
 
-  Future<bool> addTransaction(Token token, Map<String, String> data) async {
+  Future<List<String>> addTransaction(
+      Token token, Map<String, String> data) async {
     final response = await http.put(
       Uri.parse("${Api.url}${getEndpointName()}/transaction"),
       headers: {
@@ -71,11 +74,19 @@ class ProfileEndpoint extends Endpoint {
       },
       body: jsonEncode(data),
     );
-    return super.giveResponse(response);
+    return makeResponse(response);
   }
 
   @override
   Profile toModel(dynamic) {
     return Profile.fromJson(dynamic);
+  }
+
+  List<String> makeResponse(http.Response response) {
+    if (response.statusCode == 400) {
+      return CreationError.parseErrors(response);
+    } else {
+      return [response.statusCode.toString()];
+    }
   }
 }

@@ -50,7 +50,7 @@ class _CreateServiceState extends State<CreateService> {
             labelController: _serviceURLController,
             labelText: serviceURLLabelText,
             secret: false,
-            padding: PatternMeasures.inputFieldPaddingPattern,
+            padding: PatternMeasures.middleInputFieldPaddingPattern,
           ),
           InputField(
             labelController: _serviceSystemController,
@@ -65,17 +65,11 @@ class _CreateServiceState extends State<CreateService> {
                 'url': _serviceURLController.text,
                 'systemId': _serviceSystemController.text,
               };
-              Future<bool> futureResponse = _endpoint.create(token, data);
+              Future<List<String>> futureResponse =
+                  _endpoint.create(token, data);
               futureResponse.then(
                 (value) => {
-                  if (value == true)
-                    {
-                      _notification.sucess(),
-                    }
-                  else
-                    {
-                      _notification.error(),
-                    }
+                  _notification.process(value),
                 },
               );
             },

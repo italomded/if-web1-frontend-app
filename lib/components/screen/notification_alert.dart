@@ -1,53 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/components/screen/alert/alert_chain.dart';
+import 'package:projeto/components/screen/alert/bad_credentials_alert.dart';
+import 'package:projeto/components/screen/alert/conflict_alert.dart';
+import 'package:projeto/components/screen/alert/created_alert.dart';
+import 'package:projeto/components/screen/alert/error_alert.dart';
+import 'package:projeto/components/screen/alert/ok_alert.dart';
+import 'package:projeto/components/screen/alert/unauthorized_alert.dart';
+import 'package:projeto/components/screen/alert/unexpected_alert.dart';
 
 class NotificationAlert {
   final BuildContext context;
+  late AlertChain alertChain;
 
   NotificationAlert({required this.context});
 
-  Future<void> show(List<Widget> message) async {
-    return showDialog<void>(
+  void process(List<String> responseList) {
+    alertChain = CreatedAlert(
       context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Aviso'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: message,
+      nextAlert: OkAlert(
+        context: context,
+        nextAlert: ErrorAlert(
+          context: context,
+          nextAlert: BadCredentialsAlert(
+            context: context,
+            nextAlert: ConflictAlert(
+              context: context,
+              nextAlert: UnauthorizedAlert(
+                context: context,
+                nextAlert: UnexpectedAlert(
+                  context: context,
+                  nextAlert: null,
+                ),
+              ),
             ),
           ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Ok'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
+        ),
+      ),
     );
-  }
-
-  void error() {
-    show(
-      <Widget>[
-        const Text(
-            "Oops! Ocorreu um erro, provavelmente aconteceu uma das seguintes coisas:"),
-        const Text("1. Você errou alguma informação;"),
-        const Text(
-            "2. Suas credenciais expiraram; Neste caso, faça logout e login novamente;"),
-        const Text("3. Você não possui credencias de acesso necessárias;"),
-      ],
-    );
-  }
-
-  void sucess() {
-    show(
-      <Widget>[
-        const Text("Operação realizada com sucesso!"),
-      ],
-    );
+    alertChain.doAction(responseList);
   }
 }

@@ -34,17 +34,4 @@ class User implements Generic {
       });
     }
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['login'] = login;
-    data['status'] = status;
-    data['register'] = register;
-    if (profiles != null) {
-      data['profiles'] = profiles!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
 }

@@ -52,7 +52,7 @@ class _CreateTransactionState extends State<CreateTransaction> {
             labelController: _transactionURLController,
             labelText: transactionURLLabelText,
             secret: false,
-            padding: PatternMeasures.inputFieldPaddingPattern,
+            padding: PatternMeasures.middleInputFieldPaddingPattern,
           ),
           InputField(
             labelController: _transactionServiceController,
@@ -67,17 +67,11 @@ class _CreateTransactionState extends State<CreateTransaction> {
                 'url': _transactionURLController.text,
                 'serviceId': _transactionServiceController.text,
               };
-              Future<bool> futureResponse = _endpoint.create(token, data);
+              Future<List<String>> futureResponse =
+                  _endpoint.create(token, data);
               futureResponse.then(
                 (value) => {
-                  if (value == true)
-                    {
-                      _notification.sucess(),
-                    }
-                  else
-                    {
-                      _notification.error(),
-                    }
+                  _notification.process(value),
                 },
               );
             },

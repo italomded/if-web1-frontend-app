@@ -72,14 +72,11 @@ class _ProfileEditState extends State<ProfileEdit> {
                   flex: 3,
                   child: ElevatedButton(
                     onPressed: () {
-                      Future<bool> response =
+                      Future<List<String>> response =
                           _profileEndpoint.removeUser(token, getForUserData());
                       response.then(
                         (value) => {
-                          if (value == true)
-                            {notification.sucess()}
-                          else
-                            {notification.error()},
+                          notification.process(value),
                         },
                       );
                     },
@@ -92,14 +89,11 @@ class _ProfileEditState extends State<ProfileEdit> {
                 flex: 3,
                 child: ElevatedButton(
                   onPressed: () {
-                    Future<bool> response =
+                    Future<List<String>> response =
                         _profileEndpoint.addUser(token, getForUserData());
                     response.then(
                       (value) => {
-                        if (value == true)
-                          {notification.sucess()}
-                        else
-                          {notification.error()},
+                        notification.process(value),
                       },
                     );
                   },
@@ -122,16 +116,14 @@ class _ProfileEditState extends State<ProfileEdit> {
                 flex: 3,
                 child: ElevatedButton(
                   onPressed: () {
-                    Future<bool> response = _profileEndpoint.removeTransaction(
+                    Future<List<String>> response =
+                        _profileEndpoint.removeTransaction(
                       token,
                       getForTransactionData(),
                     );
                     response.then(
                       (value) => {
-                        if (value == true)
-                          {notification.sucess()}
-                        else
-                          {notification.error()},
+                        notification.process(value),
                       },
                     );
                   },
@@ -145,16 +137,14 @@ class _ProfileEditState extends State<ProfileEdit> {
                 flex: 3,
                 child: ElevatedButton(
                   onPressed: () {
-                    Future<bool> response = _profileEndpoint.addTransaction(
+                    Future<List<String>> response =
+                        _profileEndpoint.addTransaction(
                       token,
                       getForTransactionData(),
                     );
                     response.then(
                       (value) => {
-                        if (value == true)
-                          {notification.sucess()}
-                        else
-                          {notification.error()},
+                        notification.process(value),
                       },
                     );
                   },

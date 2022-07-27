@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:projeto/api/api.dart';
 import 'package:projeto/api/token.dart';
+import 'package:projeto/models/model_creation_error.dart';
 import 'package:projeto/models/model_generic.dart';
 
 abstract class Endpoint {
@@ -11,15 +12,7 @@ abstract class Endpoint {
   String getEndpointName();
   Generic toModel(dynamic dynamic);
 
-  bool giveResponse(http.Response response) {
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  Future<bool> create(Token token, Map<String, String> data) async {
+  Future<List<String>> create(Token token, Map<String, String> data) async {
     final response = await http.post(
       Uri.parse(Api.url + getEndpointName()),
       headers: {
@@ -29,9 +22,11 @@ abstract class Endpoint {
       body: jsonEncode(data),
     );
     if (response.statusCode == 201) {
-      return true;
+      return <String>[response.statusCode.toString()];
+    } else if (response.statusCode == 400) {
+      return CreationError.parseErrors(response);
     } else {
-      return false;
+      return <String>[response.statusCode.toString()];
     }
   }
 

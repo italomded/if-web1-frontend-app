@@ -39,23 +39,17 @@ class _CreateSystemState extends State<CreateSystem> {
             labelController: _systemNameController,
             labelText: systemNameLabelText,
             secret: false,
-            padding: PatternMeasures.lastInputFieldPaddingPattern,
+            padding: PatternMeasures.uniqueInputFieldPaddingPattern,
           ),
           ElevatedButton(
             onPressed: () {
               String systemName = _systemNameController.text;
               Map<String, String> data = {'name': systemName};
-              Future<bool> futureResponse = _endpoint.create(token, data);
+              Future<List<String>> futureResponse =
+                  _endpoint.create(token, data);
               futureResponse.then(
                 (value) => {
-                  if (value == true)
-                    {
-                      _notification.sucess(),
-                    }
-                  else
-                    {
-                      _notification.error(),
-                    }
+                  _notification.process(value),
                 },
               );
             },

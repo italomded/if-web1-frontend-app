@@ -39,23 +39,17 @@ class _CreateProfileState extends State<CreateProfile> {
             labelController: _profileNameController,
             labelText: profileNameLabelText,
             secret: false,
-            padding: PatternMeasures.lastInputFieldPaddingPattern,
+            padding: PatternMeasures.uniqueInputFieldPaddingPattern,
           ),
           ElevatedButton(
             onPressed: () {
               String profileName = _profileNameController.text;
               Map<String, String> data = {'name': profileName};
-              Future<bool> futureResponse = _endpoint.create(token, data);
+              Future<List<String>> futureResponse =
+                  _endpoint.create(token, data);
               futureResponse.then(
                 (value) => {
-                  if (value == true)
-                    {
-                      _notification.sucess(),
-                    }
-                  else
-                    {
-                      _notification.error(),
-                    }
+                  _notification.process(value),
                 },
               );
             },

@@ -16,7 +16,7 @@ import 'list_tile_navigator.dart';
 
 const String menuCreateResourceText = "Create resource";
 const String menuDeleteResourceText = "Delete resource";
-const String menuUpdateResourceText = "Update resource";
+const String menuUpdateResourceText = "Change resource status";
 const String menuSearchResourceText = "Search for resource";
 
 class ScreenListBase extends StatelessWidget {
@@ -93,7 +93,10 @@ class ScreenListBase extends StatelessWidget {
                       ListTileNavigator(
                         refreshScreen: refreshScreen,
                         title: menuSearchResourceText,
-                        route: Search(endpoint: endpoint),
+                        route: Search(
+                          endpoint: endpoint,
+                          convertToItemFunction: convertToItemFunction,
+                        ),
                         token: token,
                         icon: Icons.search,
                       ),

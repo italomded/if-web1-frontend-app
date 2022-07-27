@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projeto/components/screen/screen_list_base.dart';
 import 'package:projeto/models/model_generic.dart';
 import 'package:projeto/screens/create/create_profile.dart';
+import 'package:projeto/screens/create/create_user.dart';
 
 import '../../api/endpoint/endpoint.dart';
 import '../../api/endpoint/user_endpoint.dart';
@@ -40,15 +41,15 @@ class _UserListState extends State<UserList> {
   @override
   Widget build(BuildContext context) {
     return ScreenListBase(
-        refreshScreen: refreshScreen,
-        appBarTitle: appBarTitle,
-        endpoint: endpoint,
-        futureGenericList: futureGenericList,
-        convertToItemFunction: (Generic generic) {
-          return UserItem(generic: generic);
-        },
-        token: widget.token,
-        createResourceRoute: const CreateProfile() // MUDAR,
-        );
+      refreshScreen: refreshScreen,
+      appBarTitle: appBarTitle,
+      endpoint: endpoint,
+      futureGenericList: futureGenericList,
+      convertToItemFunction: (Generic generic) {
+        return UserItem(generic: generic);
+      },
+      token: widget.token,
+      createResourceRoute: const CreateUser(),
+    );
   }
 }

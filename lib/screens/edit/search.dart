@@ -13,8 +13,13 @@ const String searchButtonText = "Search";
 
 class Search extends StatefulWidget {
   final Endpoint endpoint;
+  final GenericItem Function(Generic generic) convertToItemFunction;
 
-  const Search({Key? key, required this.endpoint}) : super(key: key);
+  const Search({
+    Key? key,
+    required this.endpoint,
+    required this.convertToItemFunction,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -62,9 +67,7 @@ class _SearchState extends State<Search> {
                 Generic generic = snapshot.data!;
                 return Padding(
                   padding: PatternMeasures.listCardPadding,
-                  child: GenericItem(
-                    generic: generic,
-                  ),
+                  child: widget.convertToItemFunction(generic),
                 );
               } else if (snapshot.hasError) {
                 return const EmptyCardItem(icon: Icons.clear);
